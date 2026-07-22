@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import { Link } from 'react-router-dom'
 import { PostCard, Container } from '../components'
 import appwriteService from "../appWrite/conf"
 import { useSelector } from 'react-redux'
@@ -95,14 +96,33 @@ function Home() {
     );
 } else {
     return (
-    <div className='w-full py-8 my-40'>
+    <div className='w-full py-4 mt-4'>
         <Container>
-            <div className="flex flex-wrap">
-                {posts && posts.map((post) => (
-                    <div key={post.$id} className="p-2 w-1/4">
-                        <PostCard {...post} />
+            <div className="flex flex-col md:flex-row items-stretch gap-4">
+                
+                    <div className='grid grid-cols-3 gap-4 justify-items-center flex-1'>
+                        {posts && posts.slice(0, 6).map((post) => (
+                            <div key={post.$id} >
+                                <PostCard {...post} />
+                            </div>
+                        ))}
                     </div>
-                ))}
+
+                    <div className="w-full md:w-[380px] p-4 flex flex-col items-center justify-between h-[690px] bg-[#101516] rounded-xl">
+                        <div className="flex-1 flex flex-col items-center justify-center text-center gap-8">
+                            <h1 className="text-5xl font-extrabold text-[#54E6D4] mb-20">
+                                MEGA BLOG
+                            </h1>
+                            <p className="text-gray-300 text-lg max-w-xs">
+                                Welcome to Mega Blog, your go-to platform for sharing
+                                ideas, stories, and knowledge. Join our community of
+                                passionate writers and readers today!
+                            </p>
+                        </div>
+                        <Link to="/all-posts" className="w-full text-center bg-[#54E6D4] text-[#101516] font-bold py-3 rounded-xl hover:bg-[#3fd0be] transition-colors duration-200">
+                            View All Posts
+                        </Link>
+                    </div>
             </div>
         </Container>
     </div>
