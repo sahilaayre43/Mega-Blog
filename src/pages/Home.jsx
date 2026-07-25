@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import { PostCard, Container } from '../components'
-import appwriteService from "../appWrite/conf"
+import appwriteService from "../appWrite/config"
 import { useSelector } from 'react-redux'
 
 function Home() {

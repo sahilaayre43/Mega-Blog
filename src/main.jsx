@@ -13,6 +13,7 @@ import Post from './pages/Post.jsx'
 import { AuthLayout, Login } from './components/index.js'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import PostForm from './components/PostForm.jsx'
+import Profile from './pages/Profile.jsx'
 
 const rout = createBrowserRouter([
   {
@@ -68,6 +69,14 @@ const rout = createBrowserRouter([
         element: (
           <AuthLayout  authentication={true}>
             <Post />
+          </AuthLayout>
+        )
+      },
+      {
+        path: "/profile",
+        element: (
+          <AuthLayout  authentication={true}>
+            <Profile />
           </AuthLayout>
         )
       }

@@ -35,6 +35,11 @@ function Header() {
       slug: "/add-post",
       active: authStatus,
     },
+    {
+      name: 'Profile',
+      slug: '/profile',
+      active: authStatus,
+    },
   ]
 
   return (
@@ -43,7 +48,7 @@ function Header() {
         <nav className='flex'>
           <div className="mr-4 mt-2 font-bold">
             <Link to='/'>
-              <Logo width='100px' />
+              <Logo width='150px' />
             </Link>
           </div>
           <ul className='flex ml-auto'>
