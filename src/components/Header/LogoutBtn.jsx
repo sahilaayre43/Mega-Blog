@@ -14,7 +14,7 @@ const logoutHandler = () => {
 
   return (
     <button
-    className='inline-bock px-6 py-2 duration-200 hover:bg-blue-100 rounded-full'
+    className='flex items-center gap-2 bg-[#17d8d4] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition duration-300'
     onClick={logoutHandler}
     >Logout</button>
   )

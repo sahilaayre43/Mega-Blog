@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 function Header() {
 
   const authStatus = useSelector((state) => state.auth.status)
-  const navigate = new useNavigate();
+  const navigate = useNavigate();
 
   const navItem = [
     {
@@ -61,9 +61,7 @@ function Header() {
                 </li>
               ) : null
             )}
-            {authStatus && (
-              <li><LogoutBtn/></li>
-            )}
+            
           </ul>
         </nav>
       </Container>
