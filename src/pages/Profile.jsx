@@ -1,8 +1,35 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, LogoutBtn } from '../components'
 import {  Edit,  MapPin,  Calendar,  FileText,  Eye,  Heart, PenSquare,} from "lucide-react";
+import { useSelector } from 'react-redux';
+import profileService from '../appWrite/profile'; 
+import service from '../appWrite/config';
 
 export default function Profile() {
+
+  const [profile, setProfile] = useState(null)
+  const [editing, setEditing] = useState(false)
+  const [bioInput, setbioInput] = useState(profile?.bio || "")
+  const [avtar, setAvtar] = useState(null)
+
+  const userData = useSelector((state) => state.auth.userData)
+
+  const joinDate = new Date(userData.$createdAt).toLocaleDateString('en-US', {
+    month: 'long',
+    year: 'numeric'
+  })
+
+  useEffect(() => {
+    profileService.getProfile(userData.$id)
+      .then((profileData) => {
+        setProfile(profileData)
+    })
+      .catch((error) => {
+        console.log("No Profile found:", error)
+    })
+  
+  }, [userData.$id])
+  
 
   return (
     <div className="min-h-screen bg-[#17d8d4] py-10 px-5">
@@ -12,27 +39,32 @@ export default function Profile() {
           <div className="flex flex-col lg:flex-row justify-between gap-8">
 
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-              <img src="https://imgs.search.brave.com/tTDTKEIrl-pmV-ktc5MsVaxhxaj5rhLUhY51EvD0y3k/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tLmdl/dHR5d2FsbHBhcGVy/cy5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMjMvMTAvQ2Fy/dG9vbi1CYXRtYW4t/UGZwLVByb2ZpbGUu/anBn" alt=""  className="w-36 h-36 rounded-full object-cover border-4 border-[#17d8d4]"/>
+              {profile?.avtar ? (
+                <img src={service.getFileView(profile.avtar)} alt={userData.name}  className="w-36 h-36 rounded-full object-cover border-4 border-[#17d8d4]"/>
+              ) : (
+                <img src="https://imgs.search.brave.com/tTDTKEIrl-pmV-ktc5MsVaxhxaj5rhLUhY51EvD0y3k/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tLmdl/dHR5d2FsbHBhcGVy/cy5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMjMvMTAvQ2Fy/dG9vbi1CYXRtYW4t/UGZwLVByb2ZpbGUu/anBn" alt=""  className="w-36 h-36 rounded-full object-cover border-4 border-[#17d8d4]"/>
+              )}
             <div className="text-center md:text-left">
 
                 <h1 className="text-4xl font-bold text-[#17d8d4]">
-                  Sahil Aayre
+                  {userData.name}
                 </h1>
 
                 <p className="text-zinc-400 mt-2 text-lg">
-                  Writer • Storyteller • Developer
+                  {userData.email}
                 </p>
 
-                <p className="mt-5 text-zinc-300 max-w-xl leading-7">
-                  I enjoy writing articles about programming,
-                  movies, self-improvement, anime and anything
-                  that sparks curiosity. Every article is written
-                  with the goal of teaching or inspiring someone.
-                </p>
+                <div className="mt-5 text-zinc-300 max-w-xl leading-7">
+                  {editing ? (
+                    <textarea value={bioInput} onChange={(e) => setbioInput(e.target.value)} className='w-full bg-gray-700 border border-gray-200 rounded-lg px-3 py-2'/>
+                  ) : (
+                    <p>{profile?.bio || "No bio yet..."}</p>
+                  )}
+                </div>
 
                 <div className="flex flex-wrap justify-center items-center md:justify-start gap-2 mt-6 text-zinc-400">
                     <Calendar size={18} />
-                    Joined July 2026
+                    Joined {joinDate}
                 </div>
 
               </div>
@@ -41,7 +73,7 @@ export default function Profile() {
 
             <div className="flex flex-col">
               <div className="flex flex-col md:flex-row items-center gap-4 mb-10 md:justify-end">
-                <button className="flex items-center gap-2 bg-[#17d8d4] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition duration-300">
+                <button onClick={() => setEditing(!editing)} className="flex items-center gap-2 bg-[#17d8d4] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition duration-300">
                   <Edit size={18} /> Edit Profile 
                 </button>
                 <LogoutBtn/>
