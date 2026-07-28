@@ -4,13 +4,18 @@ import {  Edit,  MapPin,  Calendar,  FileText,  Eye,  Heart, PenSquare,} from "l
 import { useSelector } from 'react-redux';
 import profileService from '../appWrite/profile'; 
 import service from '../appWrite/config';
+import { useForm } from 'react-hook-form';
 
 export default function Profile() {
 
   const [profile, setProfile] = useState(null)
   const [editing, setEditing] = useState(false)
-  const [bioInput, setbioInput] = useState(profile?.bio || "")
-  const [avtar, setAvtar] = useState(null)
+
+  const { register, handleSubmit, setValue } = useForm({
+    defaultValues: {
+      bio: "",
+    }
+  })
 
   const userData = useSelector((state) => state.auth.userData)
 
@@ -19,19 +24,41 @@ export default function Profile() {
     year: 'numeric'
   })
 
+  const submit = async (data) => {
+    let avtarId = profile?.avtar
+
+    if(data.avtar && data.avtar[0]) {
+      const uploadedFile = await service.uploadFile(data.avtar[0])
+      if(uploadedFile) {
+        if( profile?.avtar) await service.deleteFile(profile.avtar)
+          avtarId = uploadedFile.$id
+      }
+    }
+
+    const updated = profile
+      ? await profileService.updateProfile(userData.$id, { bio: data.bio, avtar: avtarId })
+      : await profileService.createProfile({ userId: userData.$id, bio: data.bio, avtar: avtarId})
+
+    if (updated) setProfile(updated)
+    setEditing(false)
+  }
+
   useEffect(() => {
     profileService.getProfile(userData.$id)
       .then((profileData) => {
         setProfile(profileData)
+        setValue("bio", profileData?.bio || "")
     })
       .catch((error) => {
         console.log("No Profile found:", error)
     })
   
   }, [userData.$id])
+
   
 
   return (
+    <form onSubmit={handleSubmit(submit)} >
     <div className="min-h-screen bg-[#17d8d4] py-10 px-5">
       <div className="max-w-7xl mx-auto">
 
@@ -44,6 +71,10 @@ export default function Profile() {
               ) : (
                 <img src="https://imgs.search.brave.com/tTDTKEIrl-pmV-ktc5MsVaxhxaj5rhLUhY51EvD0y3k/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tLmdl/dHR5d2FsbHBhcGVy/cy5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMjMvMTAvQ2Fy/dG9vbi1CYXRtYW4t/UGZwLVByb2ZpbGUu/anBn" alt=""  className="w-36 h-36 rounded-full object-cover border-4 border-[#17d8d4]"/>
               )}
+
+              {editing && (
+                  <input type="file" {...register("avtar")} className="mt-2 text-sm text-zinc-300" />
+                )}
             <div className="text-center md:text-left">
 
                 <h1 className="text-4xl font-bold text-[#17d8d4]">
@@ -56,7 +87,7 @@ export default function Profile() {
 
                 <div className="mt-5 text-zinc-300 max-w-xl leading-7">
                   {editing ? (
-                    <textarea value={bioInput} onChange={(e) => setbioInput(e.target.value)} className='w-full bg-gray-700 border border-gray-200 rounded-lg px-3 py-2'/>
+                    <textarea  {...register("bio")} className='w-full bg-gray-700 border border-gray-200 rounded-lg px-3 py-2'/>
                   ) : (
                     <p>{profile?.bio || "No bio yet..."}</p>
                   )}
@@ -166,6 +197,7 @@ export default function Profile() {
         </div>
       </Container>
       </div>
+      </form>
 
   );
 }
