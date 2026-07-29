@@ -14,6 +14,7 @@ import { AuthLayout, Login } from './components/index.js'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import PostForm from './components/PostForm.jsx'
 import Profile from './pages/Profile.jsx'
+import EditProfile from './pages/EditProfile.jsx'
 
 const rout = createBrowserRouter([
   {
@@ -77,6 +78,14 @@ const rout = createBrowserRouter([
         element: (
           <AuthLayout  authentication={true}>
             <Profile />
+          </AuthLayout>
+        )
+      },
+      {
+        path: "edit-profile",
+        element: (
+          <AuthLayout authentication={true}>
+            <EditProfile />
           </AuthLayout>
         )
       }

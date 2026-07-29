@@ -4,7 +4,8 @@ import {  Edit,  MapPin,  Calendar,  FileText,  Eye,  Heart, PenSquare,} from "l
 import { useSelector } from 'react-redux';
 import profileService from '../appWrite/profile'; 
 import service from '../appWrite/config';
-import { useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
 
@@ -18,6 +19,7 @@ export default function Profile() {
   })
 
   const userData = useSelector((state) => state.auth.userData)
+  const navigate = useNavigate()
 
   const joinDate = new Date(userData.$createdAt).toLocaleDateString('en-US', {
     month: 'long',
@@ -104,7 +106,7 @@ export default function Profile() {
 
             <div className="flex flex-col">
               <div className="flex flex-col md:flex-row items-center gap-4 mb-10 md:justify-end">
-                <button onClick={() => setEditing(!editing)} className="flex items-center gap-2 bg-[#17d8d4] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition duration-300">
+                <button onClick={() => navigate("/edit-profile")} className="flex items-center gap-2 bg-[#17d8d4] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition duration-300">
                   <Edit size={18} /> Edit Profile 
                 </button>
                 <LogoutBtn/>
