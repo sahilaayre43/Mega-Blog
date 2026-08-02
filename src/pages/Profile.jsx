@@ -45,17 +45,7 @@ export default function Profile() {
     setEditing(false)
   }
 
-  useEffect(() => {
-    profileService.getProfile(userData.$id)
-      .then((profileData) => {
-        setProfile(profileData)
-        setValue("bio", profileData?.bio || "")
-    })
-      .catch((error) => {
-        console.log("No Profile found:", error)
-    })
-  
-  }, [userData.$id])
+
 
   
 
