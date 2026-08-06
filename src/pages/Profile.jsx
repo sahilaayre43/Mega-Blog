@@ -9,48 +9,14 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
 
-  const [profile, setProfile] = useState(null)
-  const [editing, setEditing] = useState(false)
-
-  const { register, handleSubmit, setValue } = useForm({
-    defaultValues: {
-      bio: "",
-    }
-  })
 
   const userData = useSelector((state) => state.auth.userData)
-  const navigate = useNavigate()
-
-  const joinDate = new Date(userData.$createdAt).toLocaleDateString('en-US', {
-    month: 'long',
-    year: 'numeric'
-  })
-
-  const submit = async (data) => {
-    let avtarId = profile?.avtar
-
-    if(data.avtar && data.avtar[0]) {
-      const uploadedFile = await service.uploadFile(data.avtar[0])
-      if(uploadedFile) {
-        if( profile?.avtar) await service.deleteFile(profile.avtar)
-          avtarId = uploadedFile.$id
-      }
-    }
-
-    const updated = profile
-      ? await profileService.updateProfile(userData.$id, { bio: data.bio, avtar: avtarId })
-      : await profileService.createProfile({ userId: userData.$id, bio: data.bio, avtar: avtarId})
-
-    if (updated) setProfile(updated)
-    setEditing(false)
-  }
-
-
+  const navigate = useNavigat()
 
   
 
   return (
-    <form onSubmit={handleSubmit(submit)} >
+    <form onSubmit={handleSubmit} >
     <div className="min-h-screen bg-[#17d8d4] py-10 px-5">
       <div className="max-w-7xl mx-auto">
 
