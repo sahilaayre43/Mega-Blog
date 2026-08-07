@@ -19,8 +19,6 @@ function EditProfile() {
 
   const userData = useSelector((state) => state.auth.userData)
   const navigate = useNavigate()
-
-  // Fetch profile once on mount, not inside submit
   useEffect(() => {
     profileService.getProfile(userData.$id)
       .then((profileData) => {
