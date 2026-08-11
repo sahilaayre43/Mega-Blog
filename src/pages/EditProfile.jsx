@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 function EditProfile() {
 
   const [profile, setProfile] = useState(null)
-  const [editing, setEditing] = useState(false)
+  const [editing, setEditing] = useState(true)
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
       bio: "",
@@ -43,10 +43,13 @@ function EditProfile() {
     }
 
     const updated = profile
-      ? await profileService.updateProfile(userData.$id, { bio: data.bio, about: data.about, avtar: avtarId })
-      : await profileService.createProfile({ userId: userData.$id, bio: data.bio, about: data.about, avtar: avtarId })
+      ? await profileService.updateProfile(userData.$id, { bio: data.bio, avtar: avtarId })
+      : await profileService.createProfile({ userId: userData.$id, bio: data.bio, avtar: avtarId })
 
-    if (updated) setProfile(updated)
+    if (updated) {
+      setProfile(updated)
+      navigate("/profile")  
+    }
     setEditing(false)
   }
 
@@ -58,26 +61,20 @@ function EditProfile() {
           <div className="flex-1 p-8 max-w-4xl ml-40">
             <div className="flex items-center justify-between mb-6">
               <h1 className="text-white text-3xl font-bold">Edit Profile</h1>
-              {!editing && (
-                <button
-                  type="button"
-                  onClick={() => setEditing(true)}
-                  className="bg-[#54E6D4] text-[#101516] font-bold px-4 py-2 rounded-lg hover:bg-[#3fd0be] transition-colors"
-                >
-                  Edit
-                </button>
-              )}
+              
             </div>
 
             <div className="flex items-center gap-4 mb-8">
-              {profile?.avtar ? (
-                <img src={service.getFileView(profile.avtar)} alt={userData.name} className="w-36 h-36 rounded-full object-cover border-4 border-[#17d8d4]" />
+              <label htmlFor='avtarUpload' className={editing ? "cursor-pointer" : ""}>
+                {profile?.avtar ? (
+                  <img src={service.getFileView(profile.avtar)} alt={userData.name} className="w-36 h-36 rounded-full object-cover border-4 border-[#17d8d4]" />
               ) : (
-                <img src="https://imgs.search.brave.com/tTDTKEIrl-pmV-ktc5MsVaxhxaj5rhLUhY51EvD0y3k/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tLmdl/dHR5d2FsbHBhcGVy/cy5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMjMvMTAvQ2Fy/dG9vbi1CYXRtYW4t/UGZwLVByb2ZpbGUu/anBn" alt="" className="w-36 h-36 rounded-full object-cover border-4 border-[#17d8d4]" />
-              )}
+                  <img src="https://imgs.search.brave.com/tTDTKEIrl-pmV-ktc5MsVaxhxaj5rhLUhY51EvD0y3k/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9tLmdl/dHR5d2FsbHBhcGVy/cy5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMjMvMTAvQ2Fy/dG9vbi1CYXRtYW4t/UGZwLVByb2ZpbGUu/anBn" alt="" className="w-36 h-36 rounded-full object-cover border-4 border-[#17d8d4]" />
+                  )}
+                  </label>
 
               {editing && (
-                <input type="file" {...register("avtar")} className="mt-2 text-sm text-zinc-300" />
+                <input type="file" id='avtarUpload' {...register("avtar")} className="hidden" />
               )}
               <div>
                 <p className="text-white font-semibold">Profile photo</p>
@@ -107,7 +104,7 @@ function EditProfile() {
                 <p className="text-zinc-500 text-xs mt-1">Write a short bio.</p>
               </div>
 
-              <div>
+             {/* <div>
                 <label className="block text-white text-sm font-semibold mb-1">About</label>
                 <textarea
                   rows="3"
@@ -116,7 +113,7 @@ function EditProfile() {
                   className="w-full bg-[#101516] border border-zinc-700 rounded-lg px-3 py-2 text-white outline-none focus:border-[#54E6D4] resize-none disabled:opacity-60"
                 />
                 <p className="text-zinc-500 text-xs mt-1">Write something about yourself.</p>
-              </div>
+              </div> */}
             </div>
 
             <hr className="border-zinc-800 my-8" />

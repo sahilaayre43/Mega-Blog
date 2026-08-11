@@ -17,10 +17,10 @@ export class ProfileService {
             return await this.databases.createDocument(
                 conf.AppwriteDatabaseId,
                 conf.AppwriteProfileCollectionId,
-                userId,        // used as the document ID
+                userId,      
                 {
                     bio,
-                    avtar,     // userId NOT duplicated here
+                    avtar, 
                 }
             )
         } catch (error) {
