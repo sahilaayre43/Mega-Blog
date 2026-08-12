@@ -35,6 +35,7 @@ function EditProfile() {
     let avtarId = profile?.avtar
 
     if (data.avtar && data.avtar[0]) {
+      console.log("avtar field:", data.avtar)
       const uploadedFile = await service.uploadFile(data.avtar[0])
       if (uploadedFile) {
         if (profile?.avtar) await service.deleteFile(profile.avtar)
