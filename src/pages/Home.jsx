@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { PostCard, Container } from '../components'
 import appwriteService from "../appWrite/config"
 import { useSelector } from 'react-redux'
+import Logo from '../assets/ChatGPT2.png'
+import { Edit, FileText, PenLine, Users } from "lucide-react";
 
 function Home() {
 
@@ -108,19 +110,61 @@ function Home() {
                         ))}
                     </div>
 
-                    <div className="w-full md:w-[380px] p-4 flex flex-col items-center justify-between h-[690px] bg-[#101516] rounded-xl">
+                    <div className="w-full md:w-[380px] p-4 flex flex-col items-center justify-between h-[690px] bg-[#171A1A] rounded-xl border border-[#17d8d4]/20 shadow-xl">
                         <div className="flex-1 flex flex-col items-center justify-center text-center gap-8">
-                            <h1 className="text-5xl font-extrabold text-[#54E6D4] mb-20">
-                                MEGA BLOG
+
+                            <div className='flex justify-content w-[230px] h-10 items-center mb-10'>
+                                   <img src={Logo} alt="Logo" /> 
+                                </div>
+
+                            <h1 className="flex text-5xl font-extrabold text-[#54E6D4]">
+                                MEGA-
+                                <div className="text-white">BLOG</div>
                             </h1>
                             <p className="text-gray-300 text-lg max-w-xs">
                                 Welcome to Mega Blog, your go-to platform for sharing
-                                ideas, stories, and knowledge. Join our community of
-                                passionate writers and readers today!
+                                ideas, stories, and knowledge.
                             </p>
+
+                            <div className="space-y-8 mr-40">
+                            <div className="flex items-center gap-4">
+                               <div className="text-[#54E6D4]">
+                                 <Users size={30} />
+                               </div>
+                           
+                               <div>
+                                 <p className="mr-10 text-sm font-semibold text-white">1.2K+</p>
+                                 <p className="text-xs text-gray-400">Active Readers</p>
+                               </div>
+                            </div>
+                           
+                            <div className="flex items-center gap-4">
+                               <div className="text-[#54E6D4]">
+                                 <FileText size={30} />
+                               </div>
+                           
+                               <div>
+                                 <p className="mr-5 text-sm font-semibold text-white">250+</p>
+                                 <p className="text-xs text-gray-400">Blog Posts</p>
+                               </div>
+                            </div>
+                           
+                            <div className="flex items-center gap-4">
+                               <div className="text-[#54E6D4]">
+                                 <PenLine size={30} />
+                               </div>
+                           
+                            <div>
+                                 <p className="mr-3 text-sm font-semibold text-white">50+</p>
+                                 <p className="text-xs text-gray-400">Writers</p>
+                               </div>
+                             </div>
+                           </div>
                         </div>
-                        <Link to="/all-posts" className="w-full text-center bg-[#54E6D4] text-[#101516] font-bold py-3 rounded-xl hover:bg-[#3fd0be] transition-colors duration-200">
-                            View All Posts
+                        <Link to="/all-posts" className="w-full text-center bg-[#54E6D4] text-white font-bold py-3 rounded-xl hover:scale-105 transition duration-300"> 
+
+                                View All Posts
+
                         </Link>
                     </div>
             </div>

@@ -22,9 +22,9 @@ export default function Profile() {
   if (loading) return <div className="text-white p-10">Loading...</div>
 
   return (
-    <div className="min-h-screen bg-[#17d8d4] py-10 px-5">
+    <div className="min-h-screen bg-[#0F1111] py-10 px-5">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-[#101516] rounded-3xl px-15 p-8 border border-[#17d8d4]/20 shadow-xl">
+        <div className="bg-[#171A1A] rounded-3xl px-15 p-8 border border-[#17d8d4]/20 shadow-xl">
           <div className="flex flex-col lg:flex-row justify-between">
             <div className="flex flex-col md:flex-row items-center md:items-start gap-10">
               <img
@@ -62,7 +62,7 @@ export default function Profile() {
           </div>
         </div>
 
-        <div className="mt-8 bg-[#101516] rounded-3xl border border-[#17d8d4]/20 p-8">
+        <div className="mt-8 bg-[#171A1A] rounded-3xl border border-[#17d8d4]/20 p-8">
           <h2 className="text-3xl font-bold text-[#17d8d4]">About</h2>
           <p className="text-zinc-300 leading-8 mt-5">
             {profile?.about || "No about info yet."}
@@ -74,7 +74,7 @@ export default function Profile() {
       <Container>
         <div className="mt-8">
 
-          <h2 className="text-3xl font-bold text-black mb-6">
+          <h2 className="text-3xl font-bold text-white mb-6">
             Recent Articles
           </h2>
 
@@ -84,7 +84,7 @@ export default function Profile() {
 
               <div
                 key={post}
-                className="bg-[#111] rounded-3xl border border-cyan-500/20 p-6 hover:border-cyan-400 hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+                className="bg-[#171A1A] rounded-3xl border border-cyan-500/20 p-6 hover:border-cyan-400 hover:-translate-y-1 transition-all duration-300 cursor-pointer"
               >
 
                 <div className="flex flex-col md:flex-row gap-6">

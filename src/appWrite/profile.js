@@ -12,7 +12,7 @@ export class ProfileService {
         this.databases = new Databases(this.client);
     }
 
-    async createProfile({ userId, bio, avtar }){
+    async createProfile({ userId, bio, avtar, about }) {
         try {
             return await this.databases.createDocument(
                 conf.AppwriteDatabaseId,
@@ -20,7 +20,9 @@ export class ProfileService {
                 userId,      
                 {
                     bio,
-                    avtar, 
+                    avtar,
+                    userId,
+                    about, 
                 }
             )
         } catch (error) {
@@ -28,7 +30,7 @@ export class ProfileService {
         }
     }
 
-    async updateProfile(userId, { bio, avtar }){
+    async updateProfile(userId, { bio, avtar, about }) {
         try {
             return await this.databases.updateDocument(
                 conf.AppwriteDatabaseId,
@@ -37,6 +39,8 @@ export class ProfileService {
                 {
                     bio,
                     avtar,
+                    userId,
+                    about,
                 }
             )
         }

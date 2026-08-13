@@ -21,10 +21,10 @@ function EditProfile() {
   } = useForm({
     defaultValues: {
       bio: "",
+      about: "",
     },
   })
 
-  // Get existing profile
   useEffect(() => {
     if (!userData?.$id) return
 
@@ -33,8 +33,8 @@ function EditProfile() {
       .then((profileData) => {
         setProfile(profileData)
 
-        // Put existing bio into the form
         setValue("bio", profileData?.bio || "")
+        setValue("about", profileData?.about || "")
       })
       .catch((error) => {
         console.log("No profile found:", error)
@@ -42,24 +42,20 @@ function EditProfile() {
       })
   }, [userData?.$id, setValue])
 
-  // Avatar preview
   const handleAvatarChange = (event) => {
     const file = event.target.files?.[0]
 
     if (!file) return
 
-    // Remove previous preview URL
     if (avatarPreview) {
       URL.revokeObjectURL(avatarPreview)
     }
 
-    // Create temporary preview
     const previewUrl = URL.createObjectURL(file)
 
     setAvatarPreview(previewUrl)
   }
 
-  // Clean preview URL when component unmounts
   useEffect(() => {
     return () => {
       if (avatarPreview) {
@@ -72,13 +68,8 @@ function EditProfile() {
     try {
       setSaving(true)
 
-      // Keep the existing avatar by default
       let avatarId = profile?.avtar
 
-      /*
-        Only upload a new avatar if the user
-        actually selected a file.
-      */
       if (data.avtar?.[0]) {
         const newAvatar = await service.uploadFile(data.avtar[0])
 
@@ -86,37 +77,27 @@ function EditProfile() {
           throw new Error("Avatar upload failed")
         }
 
-        /*
-          New avatar uploaded successfully.
-          Now we can safely delete the old avatar.
-        */
         if (profile?.avtar) {
           await service.deleteFile(profile.avtar)
         }
 
-        // Save the new avatar ID
         avatarId = newAvatar.$id
       }
 
-      /*
-        Only bio and avatar are sent.
-        About is intentionally NOT included.
-      */
       const profileData = {
         bio: data.bio,
+        about: data.about,
         avtar: avatarId,
       }
 
       let updatedProfile
 
       if (profile) {
-        // Existing profile → update
         updatedProfile = await profileService.updateProfile(
           userData.$id,
           profileData
         )
-      } else {
-        // No profile → create
+      } else {      
         updatedProfile = await profileService.createProfile({
           userId: userData.$id,
           ...profileData,
@@ -134,7 +115,6 @@ function EditProfile() {
     }
   }
 
-  // Don't render until user data exists
   if (!userData) {
     return null
   }
@@ -151,14 +131,12 @@ function EditProfile() {
         <div className="bg-[#0a0d0e] flex min-h-screen">
           <div className="flex-1 p-8 max-w-4xl ml-40">
 
-            {/* Header */}
             <div className="flex items-center justify-between mb-6">
               <h1 className="text-white text-3xl font-bold">
                 Edit Profile
               </h1>
             </div>
 
-            {/* Avatar */}
             <div className="flex items-center gap-4 mb-8">
               <label
                 htmlFor="avtarUpload"
@@ -192,10 +170,8 @@ function EditProfile() {
               </div>
             </div>
 
-            {/* Form fields */}
             <div className="space-y-5">
 
-              {/* Name */}
               <div>
                 <label className="block text-white text-sm font-semibold mb-1">
                   Name
@@ -209,7 +185,6 @@ function EditProfile() {
                 />
               </div>
 
-              {/* Bio */}
               <div>
                 <label className="block text-white text-sm font-semibold mb-1">
                   Bio
@@ -227,11 +202,27 @@ function EditProfile() {
                 </p>
               </div>
 
+              <div>
+                <label className="block text-white text-sm font-semibold mb-1">
+                  about
+                </label>
+
+                <textarea
+                  rows="5"
+                  {...register("about")}
+                  className="w-full bg-[#101516] border border-zinc-700 rounded-lg px-3 py-2 text-white outline-none focus:border-[#54E6D4] resize-none"
+                  placeholder="Write about yourself..."
+                />
+
+                <p className="text-zinc-500 text-xs mt-1">
+                  Write about yourself.
+                </p>
+              </div>
+
             </div>
 
             <hr className="border-zinc-800 my-8" />
 
-            {/* Save button */}
             <button
               type="submit"
               disabled={saving}

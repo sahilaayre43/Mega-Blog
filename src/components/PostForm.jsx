@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import appwriteService from "../appWrite/config";
 import { Button, Input, Select, RTE } from './index'
+import { Container } from '../components/index'
 
 function PostForm({post}) {
 
@@ -67,7 +68,8 @@ function PostForm({post}) {
   },[watch, slugTransform, setValue])
 
   return (
-    <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
+    <form onSubmit={handleSubmit(submit)} className="flex flex-wrap w-full max-w-7xl mx-auto px-4">
+      
             <div className="w-2/3 px-2">
                 <Input
                     label="Title : "
@@ -113,6 +115,7 @@ function PostForm({post}) {
                     {post ? "Update" : "Submit"}
                 </Button>
             </div>
+           
         </form>
   )
 }

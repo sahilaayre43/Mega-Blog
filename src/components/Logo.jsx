@@ -1,11 +1,10 @@
 import React from 'react'
-import MyLogo from '../assets/megablog.png'
+import MyLogo from '../assets/ChatGPT.png'
 
 function Logo({width = ""}) {
   return (
     <div className='flex justify-content items-center' style={{width}}>
-      MEGA-BLOG
-      {/* <img src={MyLogo} alt="Logo" style={{width}} /> */}
+       <img src={MyLogo} alt="Logo" style={{width}} /> 
     </div>
   )
 }
