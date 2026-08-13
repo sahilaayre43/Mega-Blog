@@ -24,7 +24,6 @@ function EditProfile() {
       .then((profileData) => {
         setProfile(profileData)
         setValue("bio", profileData?.bio || "")
-        setValue("about", profileData?.about || "")
       })
       .catch((error) => {
         console.log("No profile found:", error)
@@ -32,28 +31,43 @@ function EditProfile() {
   }, [userData.$id])
 
   const submit = async (data) => {
-    let avtarId = profile?.avtar
+  try {
+    let avatarId = profile?.avtar
+    if (data.avtar?.[0]) {
+      const newAvatar = await service.uploadFile(data.avtar[0])
 
-    if (data.avtar && data.avtar[0]) {
-      console.log("avtar field:", data.avtar)
-      const uploadedFile = await service.uploadFile(data.avtar[0])
-      if (uploadedFile) {
-        if (profile?.avtar) await service.deleteFile(profile.avtar)
-        avtarId = uploadedFile.$id
+      if (newAvatar) {
+        if (profile?.avtar) {
+          await service.deleteFile(profile.avtar)
+        }
+
+        avatarId = newAvatar.$id
       }
     }
-
-    const updated = profile
-      ? await profileService.updateProfile(userData.$id, { bio: data.bio, avtar: avtarId })
-      : await profileService.createProfile({ userId: userData.$id, bio: data.bio, avtar: avtarId })
-
-    if (updated) {
-      setProfile(updated)
-      navigate("/profile")  
+    const profileData = {
+      bio: data.bio,
+      avtar: avatarId,
     }
-    setEditing(false)
-  }
 
+    const updatedProfile = profile
+      ? await profileService.updateProfile(
+          userData.$id,
+          profileData
+        )
+      : await profileService.createProfile({
+          userId: userData.$id,
+          ...profileData,
+        })
+
+    if (updatedProfile) {
+      setProfile(updatedProfile)
+      setEditing(false)
+      navigate("/profile")
+    }
+  } catch (error) {
+    console.error("Failed to update profile:", error)
+  }
+}
   return (
     <form onSubmit={handleSubmit(submit)}>
       <Container>
