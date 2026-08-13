@@ -13,7 +13,6 @@ function EditProfile() {
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
       bio: "",
-      about: "",
     }
   })
 
