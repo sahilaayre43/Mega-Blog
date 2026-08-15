@@ -129,7 +129,7 @@ function EditProfile() {
     <form onSubmit={handleSubmit(submit)}>
       <Container>
         <div className="bg-[#0a0d0e] flex min-h-screen">
-          <div className="flex-1 p-8 max-w-4xl ml-40">
+          <div className="w-full flex-1 p-4 md:p-8 md:max-w-4xl md:ml-40">
 
             <div className="flex items-center justify-between mb-6">
               <h1 className="text-white text-3xl font-bold">
@@ -137,7 +137,7 @@ function EditProfile() {
               </h1>
             </div>
 
-            <div className="flex items-center gap-4 mb-8">
+            <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
               <label
                 htmlFor="avtarUpload"
                 className="cursor-pointer"

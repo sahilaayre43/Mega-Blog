@@ -13,13 +13,28 @@ export default function Profile() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    profileService.getProfile(userData.$id)
+
+    console.log("USER DATA: ", userData)
+
+    if (!userData) {
+      navigate("/login");
+      return ;
+    }
+    setLoading(true);
+
+    profileService
+      .getProfile(userData.$id)
       .then((data) => setProfile(data))
       .catch((error) => console.log("No profile found:", error))
       .finally(() => setLoading(false))
-  }, [userData.$id])
+  }, [userData, navigate]);
+
+  if (!userData) { 
+      return null; 
+  }
 
   if (loading) return <div className="text-white p-10">Loading...</div>
+  
 
   return (
     <div className="min-h-screen bg-[#0F1111] py-10 px-5">
@@ -41,7 +56,7 @@ export default function Profile() {
               </div>
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col mt-6 md:mb-6">
               <div className="flex flex-col md:flex-row items-center gap-4 mb-10 md:justify-end">
                 <button
                   onClick={() => navigate("/edit-profile")}

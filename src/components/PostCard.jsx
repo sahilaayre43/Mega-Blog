@@ -16,7 +16,7 @@ const getText = (html, length = 100) => {
 
   return (
     <Link to={`/post/${$id}`}>
-        <div className="w-[280px] h-[340px] bg-[#171A1A] rounded-xl flex flex-col justify-between hover:bg-[#1D2121] hover:scale-[1.03] transition-transform translateY(-2px) duration-200 shadow-lg text-[#2A2D2D] border border-[#17d8d4]/20 shadow-xl">
+        <div className="w-[350px] md:w-[280px] h-[340px] bg-[#171A1A] rounded-xl flex flex-col justify-between hover:bg-[#1D2121] hover:scale-[1.03] transition-transform translateY(-2px) duration-200 shadow-lg text-[#2A2D2D] border border-[#17d8d4]/20 shadow-xl">
             <div className="w-full h-[180px] overflow-hidden rounded-lg mb-1">
                 <img src={appwriteService.getFileView(featuredImage)} alt={title} className='w-full h-full object-cover' />
             </div>

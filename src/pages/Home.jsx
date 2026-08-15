@@ -23,7 +23,7 @@ function Home() {
     return (
         <div className="w-full py-8 mt-4">
             <Container>
-                <div className="text-center">
+                <div className="text-center text-white">
                     <h1 className="text-3xl font-bold hover:text-gray-500">
                         Login to read posts
                     </h1>
@@ -69,8 +69,8 @@ function Home() {
                         </p>
                     </div>
                 </div>
-                <div className="mt-4 rounded-2xl p-5 text-center">
-                    <h3 className="text-3xl font-bold">
+                <div className="mt-4 rounded-2xl p-5 text-center ">
+                    <h3 className="text-3xl font-bold text-white">
                          "The best ideas are meant to be shared."
                      </h3>
 
@@ -82,7 +82,7 @@ function Home() {
                 </div>
                 <div className="mt-2">
                     <div className=" text-center">
-                        <h2 className="text-3xl font-bold">
+                        <h2 className="text-3xl font-bold text-white">
                              Your Next Favorite Blog Is Waiting.
                         </h2>
 
@@ -102,7 +102,7 @@ function Home() {
         <Container>
             <div className="flex flex-col md:flex-row items-stretch gap-4">
                 
-                    <div className='grid grid-cols-3 gap-4 justify-items-center flex-1'>
+                    <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  gap-4 justify-items-center flex-1'>
                         {posts && posts.slice(0, 6).map((post) => (
                             <div key={post.$id} >
                                 <PostCard {...post} />
