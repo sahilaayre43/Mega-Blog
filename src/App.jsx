@@ -4,6 +4,7 @@ import authService from './appWrite/auth'
 import {login, logout} from './Store/authSlice'
 import {Footer , Header} from './components'
 import { Outlet } from 'react-router-dom'
+import ScrollToTop from './components/ScrollToTop'
 import './App.css'
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
   
   return !loading ? (
     <>
+    <ScrollToTop />
       <div className="min-h-screen flex  flex-wrap content-between bg-[#0F1111]">
         <div className="block w-full">
           <Header/>
